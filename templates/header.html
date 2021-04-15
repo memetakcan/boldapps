@@ -1,0 +1,55 @@
+<div class="col-lg-12">
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+    <a href="/" style="margin-right: 10px">
+      <img src="/static/img/karga.png" width="30" height="40" alt="" >
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    {% if request.user.is_authenticated %}
+        <ul class="navbar-nav mr-sm-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">BOQ</a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
+              <a class="dropdown-item" href="">SetBoQ</a>
+              <a class="dropdown-item" href="">GetBoQ</a>
+              <a class="dropdown-item" href="">index</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Todo</a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
+              <a class="dropdown-item" href="">Create</a>
+              <a class="dropdown-item" href="">index</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Workblog</a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
+              <a class="dropdown-item" href="{% url 'create' %}">Create</a>
+              <a class="dropdown-item" href="{% url 'index' %}">index</a>
+              {% if request.user.is_superuser %}
+              <a class="dropdown-item" href="{% url 'export' %}">Export</a>
+              {% endif %}
+            </div>
+          </li>
+        </ul>
+        <span class="navbar-text" >
+          <a class="btn btn-light" style="margin-right: 5px" href="/accounts/logout" role="button">Çıkış Yap</a>
+        </span>
+      {% endif %}
+
+      {% if not request.user.is_authenticated %}
+        <span class="navbar-text">
+          <a class="btn btn-light" href="/accounts/login" role="button">Üye Girişi</a>
+        </span>
+      {% else %}
+      <form class="form-inline" >
+        <input class="form-control mr-sm-2" type="search" name="q" placeholder="Search" value="{{request.GET.q}}" aria-label="project">
+        <button class="btn btn-outline-dark my-2 my-sm-0" style="float: right" type="submit">Search</button>
+      </form>
+      {% endif %}
+    </div>
+  </nav>
+</div>

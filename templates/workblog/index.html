@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+
+
+{% block body %}
+
+<!-- Burası django sitesinden alındı mesajlar bu sayfada gösterilecek -->
+    {% for workchart in workcharts %}
+    <div class="container col-sm-6">
+        <div class="card border-secondary mb-3 bg-light" style="max-width: 100%;">
+            <div class="card-header bg-transparent border-secondary">
+                <div class="row">
+                    <div class="col">
+                        <h3>{{workchart.user.get_full_name}}</h3>
+                    </div>
+                    <div class="col-sm-4">
+                        <h4>Tarih: {{workchart.datetime}}</h4>
+                    </div>
+                    <div class="col-sm-2">
+                        <a href="{% url 'detail' id=workchart.id %}" style="color: #8b0000" ><h5>ID: {{workchart.id}}</h5></a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body text-dark">
+                <p class="card-text"><h4>Çalışma Saati: {{workchart.section}}</h4></p>
+                <p class="card-text"><h4>Proje: {{workchart.project}}</h4></p>
+                <p class="card-text"><h4>Proje Bölümü: {{workchart.projectpart}} </h4></p>
+                <p><h4>Yapılan İşler: {{workchart.content}}</h4></p>
+            </div>
+            <div class="card-footer bg-transparent border-secondary">
+                <a href="{% url 'update' id=workchart.id %}" class="btn btn-info " role="button" aria-pressed="true"><h3>Update</h3></a>
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModalCenter"><h3>Delete</h3></button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Uyarı!</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">Workchart Silinsin mi?</div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <a href="{% url 'delete' id=workchart.id %}" class="btn btn-danger" role="button" aria-pressed="true">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% endfor %}
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center">
+            {% if workcharts.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ workcharts.previous_page_number }}&q={{request.GET.q}}" tabindex="-1">Previous</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+            {% endif %}
+            <li class="page-item"><a class="page-link" href="?page=1&q={{request.GET.q}}">1</a></li>
+            <li class="page-item active"><a class="page-link" href="?page={{ workcharts.number }}&q={{request.GET.q}}">{{ workcharts.number }}</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ workcharts.paginator.num_pages }}&q={{request.GET.q}}">{{ workcharts.paginator.num_pages }}</a></li>
+            {% if workcharts.has_next %}
+                <li class="page-item">
+                <a class="page-link" href="?page={{ workcharts.next_page_number }}&q={{request.GET.q}}">Next</a>
+            {% else %}
+                <li class="page-item disabled">
+                <a class="page-link" href="#">Next</a>
+            {% endif %}
+
+            </li>
+          </ul>
+        </nav>
+
+{% endblock%}
+
+

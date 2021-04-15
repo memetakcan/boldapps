@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+
+
+{% block body %}
+
+<div class="container">
+  <h2>İş Bildirim Formu</h2>
+    <form action="/workblog/addtodb" method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for=datetime>Tarih:</label>
+        <input type="date" name="datetime" style="width: 100%" required>
+      </div>
+      <div class="form-group">
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="section" id="inlineRadio1" value="Öğleden Önce" required>
+          <label class="form-check-label" for="inlineRadio1">Öğleden Önce</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="section" id="inlineRadio2" value="Öğleden Sonra">
+          <label class="form-check-label" for="inlineRadio2">Öğleden Sonra</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlSelect1">Projeler:</label>
+        <select class="form-control" name="project" id="exampleFormControlSelect1" required>
+          <option>----</option>
+          {% for p in workcharts.project_list %}
+            <option>{{p}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="content">Proje Bölümü:</label>
+        <select multiple class="form-control" id="content" name="projectpart" style="height: 165px">
+          {% for c in workcharts.projectpartlist %}
+            <option>{{c}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="content2">İçerik:</label>
+        <select multiple class="form-control" name="content" id="content2" style="height: 350px">
+          {% for c in workcharts.contentlist %}
+            <option>{{c}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <button type="submit" style="margin-bottom: 50px" class="btn btn-block btn-success"><h4>Kaydet</h4></button>
+    </form>
+</div>
+
+
+
+{% endblock%}
